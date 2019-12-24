@@ -22,3 +22,7 @@ yarn-error.log*
 
 #Electron-builder output
 /dist_electron
+
+#ddragon 및 크롤링한 챔피언 데이터
+src/assets/champion_data
+src/assets/datadragon

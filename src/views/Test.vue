@@ -16,12 +16,7 @@
 // import * as fs from "fs";
 
 export default {
-  name: "test",
+  name: 'test',
   data: () => ({}),
-  // mounted() {
-  //   const p = this.$electron.remote.app.getPath("appData");
-  //   console.log(p);
-  // },
-  // methods: {},
 };
 </script>

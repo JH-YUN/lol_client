@@ -5,7 +5,11 @@ import {
   createProtocol,
   installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib'
+import path from 'path'
+import os from 'os'
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
+
 
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -20,6 +24,13 @@ function createWindow () {
   win = new BrowserWindow({ width: 800, height: 600, webPreferences: {
     nodeIntegration: true
   } })
+
+  if(isDevelopment) {
+    BrowserWindow.addDevToolsExtension(
+      path.join(os.homedir(), 'AppData/Local/Google/Chrome/User Data/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/5.3.3_0')
+    )
+  }
+
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -69,7 +80,7 @@ app.on('ready', async () => {
     // } catch (e) {
     //   console.error('Vue Devtools failed to install:', e.toString())
     // }
-
+    // console.log(path.join(os.homedir(), 'C:/Users/dev-1005/AppData/Local/Google/Chrome/User Data/Default/Extensions/nhdogjmejiglipccpnnnanhbledajbpd/5.3.3_0'));
   }
   createWindow()
 })
