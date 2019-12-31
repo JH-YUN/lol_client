@@ -2,6 +2,7 @@
 
 <template>
   <v-app>
+    {{test}}
     <v-app-bar app color="blue lighten-1" dark>
       <div class="d-flex align-center">
         <router-link to="/">
@@ -25,18 +26,17 @@
   </v-app>
 </template>
 <script>
+
 export default {
   name: "App",
 
   components: {},
 
   data: () => ({
-    //
+
   }),
   mounted() {
-    // const p = this.$electron.remote.app.getPath("appData");
-    // const p =app.getPath("appData");
-    // console.log(app);
+
   }
 };
 </script>
