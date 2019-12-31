@@ -18,7 +18,7 @@ const routes = [
     component: Test,
   },
   {
-    path: '/champion/:id',
+    path: '/champion',
     name: 'champion',
     component: Champion,
   },

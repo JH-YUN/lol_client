@@ -1,6 +1,6 @@
 <template>
 <!-- <div class="chmpion"> -->
-  <championList/>
+  <ChampionList/>
 <!-- </div> -->
 </template>
 
@@ -18,15 +18,10 @@ export default {
     championList: [],
   }),
   mounted() {
-    this.get_champion_list();
-    // eslint-disable-next-line no-console
-    console.log('hihi');
+
   },
   methods: {
-    get_champion_list() {
-      // eslint-disable-next-line no-console
-      console.log(this.$electron.remote.app.getPath('appData'));
-    },
+
   },
 };
 </script>
