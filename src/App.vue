@@ -2,7 +2,6 @@
 
 <template>
   <v-app>
-    {{test}}
     <v-app-bar app color="blue lighten-1" dark>
       <div class="d-flex align-center">
         <router-link to="/">
