@@ -10,7 +10,7 @@
       </div>
 
       <v-spacer></v-spacer>
-      <router-link to="/champion">
+      <router-link to="/champion/list">
         <v-btn text>
           <span class="mr-2">챔피언 목록</span>
         </v-btn>
@@ -36,6 +36,9 @@ export default {
   }),
   mounted() {
 
-  }
+  },
+  methods: {
+
+  },
 };
 </script>
