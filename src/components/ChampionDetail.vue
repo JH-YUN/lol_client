@@ -21,8 +21,8 @@
         <v-card-title>룬</v-card-title>
         <!-- <v-btn @click="test()">test</v-btn> -->
         <v-btn v-for="(e, i) in detail.rune[this.selectedPosition].rune" :key="i" @click="selectRune(i)" x-large>
-          <v-img width="50" :src="runeImgPath+runeData[e.mainRune.substring(0,2)+'00'].slots[0].runes.find((obj)=>obj.id==e.mainRune).icon"></v-img>
-          <v-img width="20" :src="runeImgPath+runeData[e.subRune].icon"></v-img>
+          <v-img width="50" :src="runeImgPath+perksData[e.mainRune].icon"></v-img>
+          <v-img width="20" :src="runeImgPath+perksData[e.subRune].icon"></v-img>
           <span class="caption pt-2 pl-2">{{e.pick}}</span>
         </v-btn>
         <!-- <v-row v-if="selectedRune !== null">
@@ -32,9 +32,9 @@
         </v-row> -->
         <v-row v-for="(selRuneEl, selRuneIndex) in selectedRune.detail" :key="'rune'+selRuneIndex" justify="center" style="width: 700px">
           <v-col class="mr-4">
-            <v-row align="center" justify="center" v-for="(e, i) in runeData[selectedRune.mainRune.substring(0,2)+'00'].slots" :key="i">
+            <v-row align="center" justify="center" v-for="(e, i) in perksData[selectedRune.mainRune.substring(0,2)+'00'].slots" :key="i">
               <v-col v-if="i==0" cols="4">
-                <v-img width="90" :src="runeImgPath+e.runes.find((obj)=>obj.id==selectedRune.mainRune).icon"></v-img>
+                <v-img width="90" :src="runeImgPath+perksData[e.mainRune].icon"></v-img>
               </v-col>
               <v-col v-else v-for="(e1, i1) in e.runes" :key="i1">
                 <v-img :class="[selectedRune.detail[selRuneIndex].indexOf(String(e1.id)) < 0 ? 'gray-img' : '']" width="50" :src="runeImgPath+e1.icon"></v-img>
@@ -42,7 +42,7 @@
             </v-row>
           </v-col>
           <v-col align-self="end">
-            <v-row justify="center" v-for="(e, i) in runeData[selectedRune.subRune.substring(0,2)+'00'].slots" :key="i">
+            <v-row justify="center" v-for="(e, i) in perksData[selectedRune.subRune.substring(0,2)+'00'].slots" :key="i">
               <v-col v-for="(e1, i1) in e.runes" :key="i1">
                 <v-img :class="[selectedRune.detail[selRuneIndex].indexOf(String(e1.id)) < 0 ? 'gray-img' : '']" v-if="i > 0" width="50" :src="runeImgPath+e1.icon"></v-img>
               </v-col>
@@ -122,6 +122,7 @@ export default {
     detail: null,
     champion: null,
     runeData: null,
+    perksData: null,
     selectedPosition: null,
     championImgPath: path.join(__static, '/dragontail/9.24.2/img/champion/'),
     itemImgPath: path.join(__static, '/dragontail/9.24.2/img/item/'),
@@ -138,7 +139,7 @@ export default {
       this.champion = this.$parent.champions[this.id];
       this.detail = JSON.parse(fs.readFileSync(path.join(__static, `/data/${this.id}_data.json`)), 'utf8');
       this.runeData = this.$parent.runeData;
-
+      this.perksData = this.$parent.perksData;
       // console.log(this.detail);
     },
     setPosition(position) {
