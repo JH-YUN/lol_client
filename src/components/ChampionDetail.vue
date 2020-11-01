@@ -17,45 +17,41 @@
         </v-container>
       </v-card>
 
-      <v-card outlined class="pa-4">
+      <v-card outlined class="pa-4" key="rune">
         <v-card-title>룬</v-card-title>
-        <!-- <v-btn @click="test()">test</v-btn> -->
         <v-btn v-for="(e, i) in detail.rune[this.selectedPosition].rune" :key="i" @click="selectRune(i)" x-large>
           <v-img width="50" :src="runeImgPath+perksData[e.mainRune].icon"></v-img>
           <v-img width="20" :src="runeImgPath+perksData[e.subRune].icon"></v-img>
           <span class="caption pt-2 pl-2">{{e.pick}}</span>
         </v-btn>
-        <!-- <v-row v-if="selectedRune !== null">
-          <v-col cols="auto" v-for="(e, i) in runeData[selectedRune.mainRune.substring(0,2)+'00'].slots" :key="i">
+        <v-row v-if="selectedRune !== null">
+          <!-- <v-col cols="auto" v-for="(e, i) in runeData[selectedRune.mainRune.substring(0,2)+'00'].slots" :key="i">
             <v-img v-for="(e1, i1) in e.runes" :key="i1" width="50" :src="runeImgPath+e1.icon"></v-img>
-          </v-col>
-        </v-row> -->
-        <v-row v-for="(selRuneEl, selRuneIndex) in selectedRune.detail" :key="'rune'+selRuneIndex" justify="center" style="width: 700px">
-          <v-col class="mr-4">
-            <v-row align="center" justify="center" v-for="(e, i) in perksData[selectedRune.mainRune.substring(0,2)+'00'].slots" :key="i">
-              <v-col v-if="i==0" cols="4">
-                <v-img width="90" :src="runeImgPath+perksData[e.mainRune].icon"></v-img>
-              </v-col>
-              <v-col v-else v-for="(e1, i1) in e.runes" :key="i1">
-                <v-img :class="[selectedRune.detail[selRuneIndex].indexOf(String(e1.id)) < 0 ? 'gray-img' : '']" width="50" :src="runeImgPath+e1.icon"></v-img>
-              </v-col>
-            </v-row>
-          </v-col>
-          <v-col align-self="end">
-            <v-row justify="center" v-for="(e, i) in perksData[selectedRune.subRune.substring(0,2)+'00'].slots" :key="i">
-              <v-col v-for="(e1, i1) in e.runes" :key="i1">
-                <v-img :class="[selectedRune.detail[selRuneIndex].indexOf(String(e1.id)) < 0 ? 'gray-img' : '']" v-if="i > 0" width="50" :src="runeImgPath+e1.icon"></v-img>
-              </v-col>
-            </v-row>
+          </v-col> -->
+          <v-col cols="auto" v-for="(perks, i) in selectedRune.detail" :key="'detail'+i">
+            <v-card>
+              <v-row class="pa-3">
+                <v-col>
+                  <v-img v-for="(perkId, i1) in getMainRunes(perks)" :key="i1" width="50" :src="runeImgPath+perksData[perkId].icon"></v-img>
+                </v-col>
+                <v-col>
+                  <v-img v-for="(perkId, i1) in getSubRunes(perks)" :key="i1" width="50" :src="runeImgPath+perksData[perkId].icon"></v-img>
+                  <v-img v-for="(perkId, i1) in getStatMods(perks)" :key="i1" width="50" :src="runeImgPath+perksData[perkId].icon"></v-img>
+                </v-col>
+              </v-row>
+              <v-btn block="true" depressed color="primary">
+                룬 선택
+              </v-btn>
+            </v-card>
           </v-col>
         </v-row>
       </v-card>
 
-      <v-card outlined>
+      <v-card outlined key="skill">
         <v-card-title>스펠 & 스킬</v-card-title>
         <v-card-subtitle>소환사 주문</v-card-subtitle>
         <v-card-text>
-          <v-list-item v-for="(e, i) in detail.skill[this.selectedPosition].first3Level" :key="i" two-line>
+          <v-list-item v-for="(e, i) in detail.spell[this.selectedPosition]" :key="i" two-line>
             <v-list-item-content>
               <v-list-item-title>
                 {{e.order}}
@@ -82,22 +78,40 @@
         </v-card-text>
       <v-card-subtitle>선마</v-card-subtitle>
       <v-card-text>
-      <v-list-item v-for="(e, i) in detail.skill[this.selectedPosition].master" :key="i" two-line>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{e.order}}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                {{e.pick}}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-card-text>
-      </v-card>
+        <v-list-item v-for="(e, i) in detail.skill[this.selectedPosition].master" :key="i" two-line>
+          <v-list-item-content>
+            <v-list-item-title>
+              {{e.order}}
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              {{e.pick}}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-card-text>
+    </v-card>
 
 
-      <v-card outlined>
+      <v-card outlined key="item">
         <v-card-title>아이템</v-card-title>
+        <v-card-subtitle>시작 아이템</v-card-subtitle>
+        <v-row>
+          <v-col cols="auto">
+            <v-img v-for="(e, i) in detail.item[selectedPosition].start" :key="i" width="50" :src="itemImgPath+e+'.png'"></v-img>
+          </v-col>
+        </v-row>
+        <v-card-subtitle>아이템</v-card-subtitle>
+        <v-row>
+          <v-col cols="auto">
+            <v-img v-for="(e, i) in detail.item[selectedPosition].main" :key="i" width="50" :src="itemImgPath+e+'.png'"></v-img>
+          </v-col>
+        </v-row>
+        <v-card-subtitle>신발</v-card-subtitle>
+        <v-row>
+          <v-col cols="auto">
+            <v-img v-for="(e, i) in detail.item[selectedPosition].shoes" :key="i" width="50" :src="itemImgPath+e+'.png'"></v-img>
+          </v-col>
+        </v-row>
       </v-card>
 
     </v-container>
@@ -129,6 +143,9 @@ export default {
     runeImgPath: path.join(__static, '/dragontail/img/'),
     selectedRune: null,
   }),
+  computed: {
+
+  },
   created() {
     this.getDetail();
     this.setPosition(this.detail.position[0]);
@@ -147,6 +164,15 @@ export default {
     },
     selectRune(index) {
       this.selectedRune = this.detail.rune[this.selectedPosition].rune[index];
+    },
+    getMainRunes: (runes) => {
+      return runes.filter((e, i)=> i < 4)
+    },
+    getSubRunes: (runes) => {
+      return runes.filter((e, i)=> (i > 3 && i < 6))
+    },
+    getStatMods: (runes) => {
+      return runes.filter((e, i)=> (i > 5))
     },
     test() {
       // console.log(this.runeImgPath+this.runeData[detail.rune[this.selectedPosition].rune.mainRune.substring(0,2)+'00'].slots[0].runes.find((obj)=>obj.id==e.mainRune).icon);

@@ -42,7 +42,7 @@ export default {
       obj.id = style.id;
       obj.name = style.name;
       obj.icon = style.iconPath.replace('/lol-game-data/assets/v1/', '');
-      // obj.slots = style.slots;
+      obj.slots = style.slots;
       style.slots.forEach((slot)=> {
         perksIdList = perksIdList.concat(slot.perks);
       });
