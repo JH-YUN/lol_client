@@ -20,6 +20,7 @@ export default {
     selectedChampion: null,
     runeData: {},
     perksData: {},
+    summonerData: {},
   }),
   created() {
     console.log('호출');
@@ -27,16 +28,13 @@ export default {
     const runeArr = JSON.parse(fs.readFileSync(path.join(__static, `dragontail/9.24.2/data/ko_KR/runesReforged.json`)), 'utf8');
     const perksStyle = JSON.parse(fs.readFileSync(path.join(__static, `perkstyles.json`)), 'utf8').styles;
     const perks = JSON.parse(fs.readFileSync(path.join(__static, `perks.json`)), 'utf8');
+    const summoner = JSON.parse(fs.readFileSync(path.join(__static, `summoner.json`)), 'utf8');
     let perksIdList = [];
 
     runeArr.forEach((e) => {
       this.runeData[e.id] = e;
     });
-    // perks.forEach((e) => {
-    //   this.runeData[e.id] = e;
-    //   this.runeData[e.id].icon = this.runeData[e.id].iconPath;
-    //   delete(this.runeData[e.id].iconPath);
-    // });
+
     perksStyle.forEach((style) => {
       let obj = new Object();
       obj.id = style.id;
@@ -58,6 +56,7 @@ export default {
         this.perksData[obj.id] = obj;
       }
     })
+    this.summonerData = summoner;
   },
   methods: {
 

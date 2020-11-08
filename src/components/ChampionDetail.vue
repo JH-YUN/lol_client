@@ -51,18 +51,15 @@
         <v-card-title>스펠 & 스킬</v-card-title>
         <v-card-subtitle>소환사 주문</v-card-subtitle>
         <v-card-text>
-          <v-list-item v-for="(e, i) in detail.spell[this.selectedPosition]" :key="i" two-line>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{e.order}}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                {{e.pick}}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
+          <div class="d-flex mb-6" style="width: fit-content">
+            <v-img width="50" :src="summonerImgPath+detail.spell[selectedPosition][0]+'.png'"></v-img>
+            <v-img width="50" :src="summonerImgPath+detail.spell[selectedPosition][1]+'.png'"></v-img>
+          </div>
+          <div class="d-flex" style="width: fit-content">
+            <v-img width="50" :src="summonerImgPath+detail.spell[selectedPosition][2]+'.png'"></v-img>
+            <v-img width="50" :src="summonerImgPath+detail.spell[selectedPosition][3]+'.png'"></v-img>
+          </div>
         </v-card-text>
-
         <v-card-subtitle>첫 3레벨</v-card-subtitle>
         <v-card-text>
           <v-list-item v-for="(e, i) in detail.skill[this.selectedPosition].first3Level" :key="i" two-line>
@@ -138,10 +135,12 @@ export default {
     runeData: null,
     perksData: null,
     selectedPosition: null,
+    selectedRune: null,
     championImgPath: path.join(__static, '/dragontail/9.24.2/img/champion/'),
     itemImgPath: path.join(__static, '/dragontail/9.24.2/img/item/'),
     runeImgPath: path.join(__static, '/dragontail/img/'),
-    selectedRune: null,
+    summonerImgPath: path.join(__static, '/dragontail-10.21.1/10.21.1/img/spell/'),
+
   }),
   computed: {
 
@@ -157,6 +156,7 @@ export default {
       this.detail = JSON.parse(fs.readFileSync(path.join(__static, `/data/${this.id}_data.json`)), 'utf8');
       this.runeData = this.$parent.runeData;
       this.perksData = this.$parent.perksData;
+      this.summonerData = this.$parent.summonerData;
       // console.log(this.detail);
     },
     setPosition(position) {
