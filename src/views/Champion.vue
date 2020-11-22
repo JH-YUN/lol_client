@@ -23,7 +23,6 @@ export default {
     summonerData: {},
   }),
   created() {
-    console.log('호출');
     this.champions = JSON.parse(fs.readFileSync(path.join(__static, '/dragontail/9.24.2/data/ko_kr/champion.json')), 'utf8').data;
     const runeArr = JSON.parse(fs.readFileSync(path.join(__static, `dragontail/9.24.2/data/ko_KR/runesReforged.json`)), 'utf8');
     const perksStyle = JSON.parse(fs.readFileSync(path.join(__static, `perkstyles.json`)), 'utf8').styles;

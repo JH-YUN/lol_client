@@ -39,7 +39,7 @@
                   <v-img v-for="(perkId, i1) in getStatMods(perks)" :key="i1" width="50" :src="runeImgPath+perksData[perkId].icon"></v-img>
                 </v-col>
               </v-row>
-              <v-btn block="true" depressed color="primary">
+              <v-btn block depressed color="primary">
                 룬 선택
               </v-btn>
             </v-card>
@@ -52,39 +52,35 @@
         <v-card-subtitle>소환사 주문</v-card-subtitle>
         <v-card-text>
           <div class="d-flex mb-6" style="width: fit-content">
-            <v-img width="50" :src="summonerImgPath+detail.spell[selectedPosition][0]+'.png'"></v-img>
-            <v-img width="50" :src="summonerImgPath+detail.spell[selectedPosition][1]+'.png'"></v-img>
+            <v-img class="mr-2" width="50" :src="summonerImgPath+detail.spell[selectedPosition][0]+'.png'"></v-img>
+            <v-img class="mr-2" width="50" :src="summonerImgPath+detail.spell[selectedPosition][1]+'.png'"></v-img>
           </div>
           <div class="d-flex" style="width: fit-content">
-            <v-img width="50" :src="summonerImgPath+detail.spell[selectedPosition][2]+'.png'"></v-img>
-            <v-img width="50" :src="summonerImgPath+detail.spell[selectedPosition][3]+'.png'"></v-img>
+            <v-img class="mr-2" width="50" :src="summonerImgPath+detail.spell[selectedPosition][2]+'.png'"></v-img>
+            <v-img class="mr-2" width="50" :src="summonerImgPath+detail.spell[selectedPosition][3]+'.png'"></v-img>
           </div>
         </v-card-text>
         <v-card-subtitle>첫 3레벨</v-card-subtitle>
         <v-card-text>
-          <v-list-item v-for="(e, i) in detail.skill[this.selectedPosition].first3Level" :key="i" two-line>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{e.order}}
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                {{e.pick}}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
+          <div v-for="(e, i) in detail.skill[this.selectedPosition].first3Level" :key="i" class="mb-6">
+            <div class="d-flex" style="width: fit-content">
+              <v-img class="mr-2" v-for="(skillNumber, orderIndex) in skillOrderChartoNumber(e.order)" width="50" :src="summonerImgPath+championDetail.spells[skillNumber].image.full">
+                <div class="black-bg">{{e.order.charAt(orderIndex)}}</div>
+              </v-img>
+            </div>
+            <h3><small>{{e.pick}}</small></h3>
+          </div>
         </v-card-text>
       <v-card-subtitle>선마</v-card-subtitle>
       <v-card-text>
-        <v-list-item v-for="(e, i) in detail.skill[this.selectedPosition].master" :key="i" two-line>
-          <v-list-item-content>
-            <v-list-item-title>
-              {{e.order}}
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              {{e.pick}}
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+        <div v-for="(e, i) in detail.skill[this.selectedPosition].master" :key="i" class="mb-6">
+            <div class="d-flex" style="width: fit-content">
+              <v-img class="mr-2" v-for="(skillNumber, orderIndex) in skillOrderChartoNumber(e.order)" width="50" :src="summonerImgPath+championDetail.spells[skillNumber].image.full">
+                <div class="black-bg">{{e.order.charAt(orderIndex)}}</div>
+              </v-img>
+            </div>
+            <h3><small>{{e.pick}}</small></h3>
+          </div>
       </v-card-text>
     </v-card>
 
@@ -140,7 +136,7 @@ export default {
     itemImgPath: path.join(__static, '/dragontail/9.24.2/img/item/'),
     runeImgPath: path.join(__static, '/dragontail/img/'),
     summonerImgPath: path.join(__static, '/dragontail-10.21.1/10.21.1/img/spell/'),
-
+    championDetail: null,
   }),
   computed: {
 
@@ -157,6 +153,8 @@ export default {
       this.runeData = this.$parent.runeData;
       this.perksData = this.$parent.perksData;
       this.summonerData = this.$parent.summonerData;
+      this.championDetail = JSON.parse(fs.readFileSync(path.join(__static, `/dragontail-10.21.1/10.21.1/data/ko_KR/champion/${this.id}.json`)), 'utf8').data[this.id];
+
       // console.log(this.detail);
     },
     setPosition(position) {
@@ -174,6 +172,24 @@ export default {
     getStatMods: (runes) => {
       return runes.filter((e, i)=> (i > 5))
     },
+    skillCharMapping: (char) => {
+      let lowerChar = char.toLowerCase();
+      if (lowerChar == 'q') {
+        return 0;
+      } else if (lowerChar == 'w') {
+        return 1;
+      } else if (lowerChar == 'e') {
+        return 2;
+      }
+    },
+    skillOrderChartoNumber(skillOrder) {
+      let arr = [];
+      arr[0] = this.skillCharMapping(skillOrder.charAt(0));
+      arr[1] = this.skillCharMapping(skillOrder.charAt(1));
+      arr[2] = this.skillCharMapping(skillOrder.charAt(2));
+      return arr;
+    },
+
     test() {
       // console.log(this.runeImgPath+this.runeData[detail.rune[this.selectedPosition].rune.mainRune.substring(0,2)+'00'].slots[0].runes.find((obj)=>obj.id==e.mainRune).icon);
     },
@@ -184,5 +200,11 @@ export default {
 <style>
   .gray-img {
     filter: grayscale(100%);
+  }
+  .black-bg {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    width: 20px;
+    text-align: center;
   }
 </style>
