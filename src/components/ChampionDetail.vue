@@ -18,6 +18,7 @@
       </v-card>
 
       <v-card outlined class="pa-4" key="rune">
+        <button @click="test()">테스트 버튼</button>
         <v-card-title>룬</v-card-title>
         <v-btn v-for="(e, i) in detail.rune[this.selectedPosition].rune" :key="i" @click="selectRune(i)" x-large>
           <v-img width="50" :src="runeImgPath+perksData[e.mainRune].icon"></v-img>
@@ -116,6 +117,7 @@
 <script>
 import fs from 'fs';
 import path from 'path';
+import https from 'https';
 
 export default {
   name: 'ChampionDetail',
@@ -154,8 +156,6 @@ export default {
       this.perksData = this.$parent.perksData;
       this.summonerData = this.$parent.summonerData;
       this.championDetail = JSON.parse(fs.readFileSync(path.join(__static, `/dragontail-10.21.1/10.21.1/data/ko_KR/champion/${this.id}.json`)), 'utf8').data[this.id];
-
-      // console.log(this.detail);
     },
     setPosition(position) {
       this.selectedPosition = position;
@@ -191,7 +191,22 @@ export default {
     },
 
     test() {
-      // console.log(this.runeImgPath+this.runeData[detail.rune[this.selectedPosition].rune.mainRune.substring(0,2)+'00'].slots[0].runes.find((obj)=>obj.id==e.mainRune).icon);
+      const httpsAgent = new https.Agent({
+        rejectUnauthorized: false,
+      })
+      axios.defaults.options = httpsAgent;
+      axios.get('https://127.0.0.1:2999/swagger/v2/swagger.json')
+        .then(function (response) {
+          // handle success
+          console.log(response);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .then(function () {
+          // always executed
+        });
     },
   }
 };
