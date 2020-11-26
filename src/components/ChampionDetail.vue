@@ -89,27 +89,25 @@
       <v-card outlined key="item">
         <v-card-title>아이템</v-card-title>
         <v-card-subtitle>시작 아이템</v-card-subtitle>
-        <v-row>
-          <v-col cols="auto">
-            <v-img v-for="(e, i) in detail.item[selectedPosition].start" :key="i" width="50" :src="itemImgPath+e+'.png'"></v-img>
-          </v-col>
-        </v-row>
+        <v-card-text>
+          <div class="d-flex" style="width: fit-content">
+            <v-img class="mr-2" v-for="(e, i) in detail.item[selectedPosition].start" :key="i" width="50" :src="itemImgPath+e+'.png'"></v-img>
+          </div>
+        </v-card-text>
         <v-card-subtitle>아이템</v-card-subtitle>
-        <v-row>
-          <v-col cols="auto">
-            <v-img v-for="(e, i) in detail.item[selectedPosition].main" :key="i" width="50" :src="itemImgPath+e+'.png'"></v-img>
-          </v-col>
-        </v-row>
+        <v-card-text>
+          <div class="d-flex" style="width: fit-content">
+            <v-img class="mr-2" v-for="(e, i) in detail.item[selectedPosition].main" :key="i" width="50" :src="itemImgPath+e+'.png'"></v-img>
+          </div>
+        </v-card-text>
         <v-card-subtitle>신발</v-card-subtitle>
-        <v-row>
-          <v-col cols="auto">
-            <v-img v-for="(e, i) in detail.item[selectedPosition].shoes" :key="i" width="50" :src="itemImgPath+e+'.png'"></v-img>
-          </v-col>
-        </v-row>
+        <v-card-text>
+          <div class="d-flex" style="width: fit-content">
+            <v-img class="mr-2" v-for="(e, i) in detail.item[selectedPosition].shoes" :key="i" width="50" :src="itemImgPath+e+'.png'"></v-img>
+          </div>
+        </v-card-text>
       </v-card>
-
     </v-container>
-
   </div>
 </template>
 
@@ -134,10 +132,10 @@ export default {
     perksData: null,
     selectedPosition: null,
     selectedRune: null,
-    championImgPath: path.join(__static, '/dragontail/9.24.2/img/champion/'),
-    itemImgPath: path.join(__static, '/dragontail/9.24.2/img/item/'),
-    runeImgPath: path.join(__static, '/dragontail/img/'),
-    summonerImgPath: path.join(__static, '/dragontail-10.21.1/10.21.1/img/spell/'),
+    championImgPath: path.join(__static, '/img/champion/'),
+    itemImgPath: path.join(__static, '/img/item/'),
+    runeImgPath: path.join(__static, '/img/'),
+    summonerImgPath: path.join(__static, '/img/spell/'),
     championDetail: null,
   }),
   computed: {
@@ -155,7 +153,8 @@ export default {
       this.runeData = this.$parent.runeData;
       this.perksData = this.$parent.perksData;
       this.summonerData = this.$parent.summonerData;
-      this.championDetail = JSON.parse(fs.readFileSync(path.join(__static, `/dragontail-10.21.1/10.21.1/data/ko_KR/champion/${this.id}.json`)), 'utf8').data[this.id];
+      this.championDetail = this.$parent.champions[this.id]
+      // this.championDetail = JSON.parse(fs.readFileSync(path.join(__static, `/dragontail-10.21.1/10.21.1/data/ko_KR/champion/${this.id}.json`)), 'utf8').data[this.id];
     },
     setPosition(position) {
       this.selectedPosition = position;

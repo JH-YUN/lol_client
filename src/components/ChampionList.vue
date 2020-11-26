@@ -36,7 +36,7 @@ export default {
   data: () => ({
     championList: null,
     filteredList: null,
-    imgPath: path.join(__static, '/dragontail/9.24.2/img/champion/'),
+    imgPath: path.join(__static, '/img/champion/'),
     keyword: '',
   }),
   watch: {

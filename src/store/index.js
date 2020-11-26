@@ -11,6 +11,14 @@ export default new Vuex.Store({
     lolClientToken: null,
   },
   mutations: {
+    getClientLockfile() {
+      const lockfile = fs.readFileSync(path.join(state.lolClientPath, 'lockfile'), 'utf8').split(':');
+      state.lolClientPort = lockfile[2];
+      state.lolClientToken = lockfile[3];
+    },
+    updateClientState(state, clientState) {
+      state.lolClientState = clientState;
+    }
   },
   actions: {
   },

@@ -23,16 +23,11 @@ export default {
     summonerData: {},
   }),
   created() {
-    this.champions = JSON.parse(fs.readFileSync(path.join(__static, '/dragontail/9.24.2/data/ko_kr/champion.json')), 'utf8').data;
-    const runeArr = JSON.parse(fs.readFileSync(path.join(__static, `dragontail/9.24.2/data/ko_KR/runesReforged.json`)), 'utf8');
+    this.champions = JSON.parse(fs.readFileSync(path.join(__static, '/championFull.json')), 'utf8').data;
     const perksStyle = JSON.parse(fs.readFileSync(path.join(__static, `perkstyles.json`)), 'utf8').styles;
     const perks = JSON.parse(fs.readFileSync(path.join(__static, `perks.json`)), 'utf8');
     const summoner = JSON.parse(fs.readFileSync(path.join(__static, `summoner.json`)), 'utf8');
     let perksIdList = [];
-
-    runeArr.forEach((e) => {
-      this.runeData[e.id] = e;
-    });
 
     perksStyle.forEach((style) => {
       let obj = new Object();
