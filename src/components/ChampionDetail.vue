@@ -114,7 +114,6 @@
         </v-card-text>
       </v-card>
     </v-container>
-
   </div>
 </template>
 
@@ -139,10 +138,10 @@ export default {
     perksData: null,
     selectedPosition: null,
     selectedRune: null,
-    championImgPath: path.join(__static, '/dragontail/9.24.2/img/champion/'),
-    itemImgPath: path.join(__static, '/dragontail/9.24.2/img/item/'),
-    runeImgPath: path.join(__static, '/dragontail/img/'),
-    summonerImgPath: path.join(__static, '/dragontail-10.21.1/10.21.1/img/spell/'),
+    championImgPath: path.join(__static, '/img/champion/'),
+    itemImgPath: path.join(__static, '/img/item/'),
+    runeImgPath: path.join(__static, '/img/'),
+    summonerImgPath: path.join(__static, '/img/spell/'),
     championDetail: null,
   }),
   computed: {
@@ -160,7 +159,8 @@ export default {
       this.runeData = this.$parent.runeData;
       this.perksData = this.$parent.perksData;
       this.summonerData = this.$parent.summonerData;
-      this.championDetail = JSON.parse(fs.readFileSync(path.join(__static, `/dragontail-10.21.1/10.21.1/data/ko_KR/champion/${this.id}.json`)), 'utf8').data[this.id];
+      this.championDetail = this.$parent.champions[this.id]
+      // this.championDetail = JSON.parse(fs.readFileSync(path.join(__static, `/dragontail-10.21.1/10.21.1/data/ko_KR/champion/${this.id}.json`)), 'utf8').data[this.id];
     },
     setPosition(position) {
       this.selectedPosition = position;
