@@ -89,25 +89,30 @@
       <v-card outlined key="item">
         <v-card-title>아이템</v-card-title>
         <v-card-subtitle>시작 아이템</v-card-subtitle>
-        <v-row>
-          <v-col cols="auto">
-            <v-img v-for="(e, i) in detail.item[selectedPosition].start" :key="i" width="50" :src="itemImgPath+e+'.png'"></v-img>
-          </v-col>
-        </v-row>
+        <v-card-text>
+          <div v-for="items in detail.item[selectedPosition].start" key="startItem" class="mb-6">
+            <div class="d-flex" style="width: fit-content">
+              <v-img class="mr-2" v-for="item in items" :src="itemImgPath+item+'.png'"  width="50"></v-img>
+            </div>
+          </div>
+        </v-card-text>
         <v-card-subtitle>아이템</v-card-subtitle>
-        <v-row>
-          <v-col cols="auto">
-            <v-img v-for="(e, i) in detail.item[selectedPosition].main" :key="i" width="50" :src="itemImgPath+e+'.png'"></v-img>
-          </v-col>
-        </v-row>
+        <v-card-text>
+          <div v-for="items in detail.item[selectedPosition].main" key="mainItem" class="mb-6">
+            <div class="d-flex" style="width: fit-content">
+              <v-img class="mr-2" v-for="item in items" :src="itemImgPath+item+'.png'"  width="50"></v-img>
+            </div>
+          </div>
+        </v-card-text>
         <v-card-subtitle>신발</v-card-subtitle>
-        <v-row>
-          <v-col cols="auto">
-            <v-img v-for="(e, i) in detail.item[selectedPosition].shoes" :key="i" width="50" :src="itemImgPath+e+'.png'"></v-img>
-          </v-col>
-        </v-row>
+        <v-card-text>
+          <div class="mb-6">
+            <div class="d-flex" style="width: fit-content">
+              <v-img class="mr-2" v-for="(item, i) in detail.item[selectedPosition].shoes"  width="50" :src="itemImgPath+item+'.png'"></v-img>
+            </div>
+          </div>
+        </v-card-text>
       </v-card>
-
     </v-container>
 
   </div>
