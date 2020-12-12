@@ -40,7 +40,7 @@
                   <v-img v-for="(perkId, i1) in getStatMods(perks)" :key="i1" width="50" :src="runeImgPath+perksData[perkId].icon"></v-img>
                 </v-col>
               </v-row>
-              <v-btn block depressed color="primary">
+              <v-btn block depressed color="primary" @click="copyRunePage(selectedRune.mainStyle, selectedRune.subStyle, perks)">
                 룬 선택
               </v-btn>
             </v-card>
@@ -194,24 +194,59 @@ export default {
       arr[2] = this.skillCharMapping(skillOrder.charAt(2));
       return arr;
     },
+    // 룬페이지로 복사
+    async copyRunePage(mainStyle, subStyle, perks) {
+      console.log(perks);
+      let runePage = await this.getFirstPage();
+      let runePageId = runePage.id;
+      runePage = this.setRuneJson(runePage, mainStyle, subStyle, perks);
+      try {
+        const res = await axios.put(`https://127.0.0.1:61228/lol-perks/v1/pages/${runePage.id}`, runePage,{
+          headers: {
+            // 'authorization': `Basic ${this.$store.lolClientToken}`,
+            'authorization': `Basic cmlvdDpMd0dVT1pHZUZpbXhHRkFKcm00RzRn`,
+            'accept': 'application/json',
+          },
+        });
+        console.log(res);
+      } catch(error) {
+        console.log(error);
+      }
 
-    test() {
-      const httpsAgent = new https.Agent({
-        rejectUnauthorized: false,
+    },
+    async getFirstPage() {
+      let result = false;
+      await axios.get('https://127.0.0.1:61228/lol-perks/v1/pages',{
+        headers: {
+          // 'authorization': `Basic ${this.$store.lolClientToken}`,
+          'accept': 'application/json',
+          'authorization': `Basic cmlvdDpMd0dVT1pHZUZpbXhHRkFKcm00RzRn`,
+        },
       })
-      axios.defaults.options = httpsAgent;
-      axios.get('https://127.0.0.1:2999/swagger/v2/swagger.json')
         .then(function (response) {
-          // handle success
-          console.log(response);
+          if(response.status === 200) {
+            result = response.data[0];
+          }
         })
         .catch(function (error) {
-          // handle error
-          console.log(error);
+          return false;
         })
-        .then(function () {
-          // always executed
-        });
+
+      return result;
+    },
+    setRuneJson(runePage, mainStyle, subStyle, perks) {
+      runePage.autoModifiedSelections = [0];
+      runePage.isActive = true;
+      runePage.current = true;
+      runePage.name = '자동생성페이지';
+      runePage.primaryStyleId = Number(mainStyle);
+      runePage.subStyleId = Number(subStyle);
+      runePage.selectedPerkIds = perks.map(Number);
+
+      return runePage;
+    },
+    test() {
+
     },
   }
 };
